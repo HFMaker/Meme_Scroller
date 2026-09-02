@@ -51,7 +51,7 @@ CFLAGS	:=	-g -Wall -O2 -mword-relocations \
 			-ffunction-sections \
 			$(ARCH)
 
-CFLAGS	+=	-I$(CTRULIB)/include -I$(PORTLIBS)/include -D__3DS__   
+CFLAGS	+=	-I$(CTRULIB)/include -I$(PORTLIBS)/include -I$(CURDIR)/$(BUILD) -D__3DS__   
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 
