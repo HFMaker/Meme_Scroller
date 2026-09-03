@@ -1,3 +1,5 @@
-## Homebrew Meme App
+## Homebrew Meme Selector
 
-This is just an app that displays a message at the top screen and a meme at the bottom screen (it also plays a looped audio while you're in the app)
+This is just an app that displays a meme at the bottom screen and a message related to that meme at the top screen
+
+You can change the meme an its message by pressing one of the four directions of the D-Pad
