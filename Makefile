@@ -22,8 +22,8 @@ include $(DEVKITARM)/3ds_rules
 #
 # NO_SMDH: if set to anything, no SMDH file is generated.
 # ROMFS is the directory which contains the RomFS, relative to the Makefile (Optional)
-APP_TITLE	:= Homebrew Meme App
-APP_DESCRIPTION 	:= Best meme in the world! :)
+APP_TITLE	:= Meme Selector
+APP_DESCRIPTION 	:= Watch some funny memes! :3
 APP_AUTHOR := HFMaker
 ICON 	   := icon.png 
 #   If not set, it attempts to use one of the following (in this order):
@@ -58,7 +58,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcitro2d -lcitro3d -lz -lctru -lm
+LIBS	:= -lz -lctru -lm
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
