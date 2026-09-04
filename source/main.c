@@ -1,6 +1,7 @@
 #include <3ds.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include "../build/meme_raw_bin.h"
 #include "../build/meme2_raw_bin.h"
@@ -10,25 +11,59 @@
 u8 *audios[5];
 long audioSizes[5];
 
+
+
+inline void clearScreen(){
+
+    u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+    memset(fb, 0, 320 * 240 * 3);
+
+}
+
+/*void play_audio(int idx){
+
+
+        ndspChnReset(0);
+        ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
+        ndspChnSetRate(0, 44100.0f);
+        ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
+
+        ndspWaveBuf waveBuf;
+        memset(&waveBuf, 0, sizeof(waveBuf));
+        waveBuf.data_vaddr = (const void *)audios[idx];
+        waveBuf.nsamples = audioSizes[idx] / 2;
+        waveBuf.looping = true;
+        ndspChnWaveBufAdd(0, &waveBuf);
+
+        }*/
+
+
+
+
 int main(void) {
     //Se inicializa los gráficos y el romfs
     gfxInitDefault();
     romfsInit();
     
     gfxSetDoubleBuffering(GFX_BOTTOM, false);
-    u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-    memcpy(fb, meme_raw_bin, meme_raw_bin_size);
-    
+       
     // Parte del mensaje
     consoleInit(GFX_TOP, NULL);
-	printf("\x1b[16;15HTIENES 14?? ACTIVA CAM!!");
+	puts("\x1B[1;33mWelcome to Meme Selector v1.0.0 by HFMaker!\x1b[0m");
+    puts("");
+    puts("");
+    puts("-Press \x1B[1;36ma direction of the D-Pad\x1B[0m to see a meme");
+    puts("");
+    puts("-Press \x1B[1;32mB\x1B[0m while you're watching a meme to\nreturn to this menu");
+    puts("");
+    puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
 
-	printf("\x1b[30;16HPress Start to exit.");
+
     
     //Se abre el binario del audio y se hacen los ajustes necesarios para que
     //este se escuche bien
     
-    int new_idx = 1; 
+    int new_idx = 0; 
     
    for (int i = 0; i < 5; i++) {
         char path[64];
@@ -67,23 +102,7 @@ int main(void) {
     ndspChnWaveBufAdd(0, &waveBuf);
     }
 
-    /*void play_audio(int idx){
-
-
-        ndspChnReset(0);
-        ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
-        ndspChnSetRate(0, 44100.0f);
-        ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
-
-        ndspWaveBuf waveBuf;
-        memset(&waveBuf, 0, sizeof(waveBuf));
-        waveBuf.data_vaddr = (const void *)audios[idx];
-        waveBuf.nsamples = audioSizes[idx] / 2;
-        waveBuf.looping = true;
-        ndspChnWaveBufAdd(0, &waveBuf);
-
-    }*/
-
+    
 
     //Bucle principal del programa
 
@@ -92,32 +111,70 @@ int main(void) {
 
         if (hidKeysDown() & KEY_START) break;
 
-        if (hidKeysDown() & KEY_DUP){//T14AC
-            
+        if (hidKeysDown() & KEY_B){
+
             consoleClear();
+            clearScreen();
     
-	        printf("\x1b[16;15HTIENES 14?? ACTIVA CAM!!");
 
-	        printf("\x1b[30;16HPress Start to exit.");
-
-
-            u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-            memcpy(fb, meme_raw_bin, meme_raw_bin_size);
-
+        	puts("\x1B[1;33mWelcome to Meme Selector v1.0.0 by HFMaker!\x1b[0m");
+            puts("");
+            puts("");
+            puts("-Press \x1B[1;36ma direction of the D-Pad\x1B[0m to see a meme");
+            puts("");
+            puts("-Press \x1B[1;32mB\x1B[0m while you're watching a meme to\nreturn to this menu");
+            puts("");
+            puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
 
             ndspChnReset(0);
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
             ndspChnSetRate(0, 44100.0f);
             ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
 
-            new_idx = 1; 
+            int idx = 0;
+            
             ndspWaveBuf waveBuf;
             memset(&waveBuf, 0, sizeof(waveBuf));
-            waveBuf.data_vaddr = (const void *)audios[new_idx];
-            waveBuf.nsamples = audioSizes[new_idx] / 2;
+            waveBuf.data_vaddr = (const void *)audios[idx];
+            waveBuf.nsamples = audioSizes[idx] / 2;
             waveBuf.looping = true;
             ndspChnWaveBufAdd(0, &waveBuf);
 
+
+
+
+
+
+        }
+
+        
+
+        if (hidKeysDown() & KEY_DUP){//T14AC
+            
+            consoleClear();
+    
+    
+	        printf("\x1b[16;14HTIENES 14?? ACTIVA CAM!!");
+            printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
+
+            u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+            memcpy(fb, meme_raw_bin, meme_raw_bin_size);
+
+            ndspChnReset(0);
+            ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
+            ndspChnSetRate(0, 44100.0f);
+            ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
+
+            int idx = 1;
+            
+            ndspWaveBuf waveBuf;
+            memset(&waveBuf, 0, sizeof(waveBuf));
+            waveBuf.data_vaddr = (const void *)audios[idx];
+            waveBuf.nsamples = audioSizes[idx] / 2;
+            waveBuf.looping = true;
+            ndspChnWaveBufAdd(0, &waveBuf);
+
+            
 
 
           
@@ -126,40 +183,34 @@ int main(void) {
         if (hidKeysDown() & KEY_DRIGHT){//Sale balatrito?
             
             consoleClear();
-	        printf("\x1b[16;17HSALE BALATRITO???");
-
-	        printf("\x1b[30;16HPress Start to exit.");
-
-        
-
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
             memcpy(fb, meme2_raw_bin, meme2_raw_bin_size);
+
+            printf("\x1b[16;17HSALE BALATRITO?");
+            printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
 
             ndspChnReset(0);
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
             ndspChnSetRate(0, 44100.0f);
             ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
 
-            new_idx = 2;
+            int idx = 2;
             ndspWaveBuf waveBuf;
             memset(&waveBuf, 0, sizeof(waveBuf));
-            waveBuf.data_vaddr = (const void *)audios[new_idx];
-            waveBuf.nsamples = audioSizes[new_idx] / 2;
+            waveBuf.data_vaddr = (const void *)audios[idx];
+            waveBuf.nsamples = audioSizes[idx] / 2;
             waveBuf.looping = true;
             ndspChnWaveBufAdd(0, &waveBuf);
 
-
-
         }
 
-        if (hidKeysDown() & KEY_DDOWN){
+        if (hidKeysDown() & KEY_DDOWN){//Aura monster
 
             consoleClear();
-	        printf("\x1b[16;14HHAPPY BIRTHDAY DANIEL!!");
-
-	        printf("\x1b[30;16HPress Start to exit.");
-
         
+
+	        printf("\x1b[16;14HHAPPY BIRTHDAY DANIEL!!");
+	        printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
 
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
             memcpy(fb, meme3_raw_bin, meme3_raw_bin_size);
@@ -169,25 +220,24 @@ int main(void) {
             ndspChnSetRate(0, 44100.0f);
             ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
 
-            new_idx = 3;
+            int idx = 3;
             ndspWaveBuf waveBuf;
             memset(&waveBuf, 0, sizeof(waveBuf));
-            waveBuf.data_vaddr = (const void *)audios[new_idx];
-            waveBuf.nsamples = audioSizes[new_idx] / 2;
+            waveBuf.data_vaddr = (const void *)audios[idx];
+            waveBuf.nsamples = audioSizes[idx] / 2;
             waveBuf.looping = true;
             ndspChnWaveBufAdd(0, &waveBuf);
 
+        
         }
 
 
-       if (hidKeysDown() & KEY_DLEFT){
+       if (hidKeysDown() & KEY_DLEFT){//Diddyblud
 
             consoleClear();
-	        printf("\x1b[16;13HWHAT IS THIS DIDDIBLUD DOING??");
-
-	        printf("\x1b[30;16HPress Start to exit.");
-
         
+	        printf("\x1b[16;11HWHAT IS THIS DIDDYBLUD DOING??");
+	        printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
 
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
             memcpy(fb, meme4_raw_bin, meme4_raw_bin_size);
@@ -197,14 +247,15 @@ int main(void) {
             ndspChnSetRate(0, 44100.0f);
             ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
 
-            new_idx = 4;
+            int idx = 4;
             ndspWaveBuf waveBuf;
             memset(&waveBuf, 0, sizeof(waveBuf));
-            waveBuf.data_vaddr = (const void *)audios[new_idx];
-            waveBuf.nsamples = audioSizes[new_idx] / 2;
+            waveBuf.data_vaddr = (const void *)audios[idx];
+            waveBuf.nsamples = audioSizes[idx] / 2;
             waveBuf.looping = true;
             ndspChnWaveBufAdd(0, &waveBuf);
 
+           
         }
 
 
