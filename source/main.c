@@ -51,7 +51,7 @@ printf("\x1b[16;17HSALE BALATRITO??");
 printf("\x1b[16;11HWHAT IS THIS DIDDYBLUD DOING??");*/
 
 
-int idx = -1;
+int idx = 4;
 
 int main(void) {
     //Se inicializa los gráficos y el romfs
@@ -65,7 +65,7 @@ int main(void) {
 	puts("\x1B[1;33mWelcome to Meme Scroller v1.0.0 by HFMaker!\x1b[0m");
     puts("");
     puts("");
-    puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll through memes");
+    puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll\nthrough memes");
     puts("");
     puts("-Press \x1B[1;32mB\x1B[0m while you're on a meme to\nreturn to this menu");
     puts("");
@@ -78,7 +78,7 @@ int main(void) {
     
     int new_idx = 4; 
     
-   for (int i = -1; i < 5; i++) {
+   for (int i = 0; i < 5; i++) {
         char path[64];
         snprintf(path, sizeof(path), "romfs:/audio%d.bin", i);
         FILE *f = fopen(path, "rb");
@@ -128,12 +128,12 @@ int main(void) {
 
             consoleClear();
             clearScreen();
-            idx = -1;
+            idx = 4;
     
             puts("\x1B[1;33mWelcome to Meme Scroller v1.0.0 by HFMaker!\x1b[0m");
             puts("");
             puts("");
-            puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll through memes");
+            puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll\nthrough memes");
             puts("");
             puts("-Press \x1B[1;32mB\x1B[0m while you're on a meme to\nreturn to this menu");
             puts("");
@@ -159,8 +159,8 @@ int main(void) {
 
             
     
-            if (idx < 3 && idx != -1) ++idx;
-            else if (idx > 0 || idx < 0 ) idx = 0;
+            if (idx < 3 && idx != 4) ++idx;
+            else if (idx > 0 || idx == 4 ) idx = 0;
 
 
         
@@ -192,8 +192,8 @@ int main(void) {
        if (hidKeysDown() & KEY_DLEFT){//Diddyblud
             
         
-            if (idx > 0 && idx != -1) --idx;
-            else if (idx <= 0) idx = 3;
+            if (idx > 0 && idx != 4) --idx;
+            else if (idx == 0 || idx == 4) idx = 3;
 
             consoleClear();
         
@@ -233,7 +233,7 @@ int main(void) {
 
     ndspChnWaveBufClear(0);
     ndspExit();
-    for (int i = -1; i < 5; i++) if (audios[i]) linearFree(audios[i]);
+    for (int i = 0; i < 5; i++) if (audios[i]) linearFree(audios[i]);
     romfsExit();
     gfxExit();
     return 0;
