@@ -86,7 +86,7 @@ main.o: /home/manu/3ds-dev/meme/source/main.c \
  /opt/devkitpro/libctru/include/3ds/font.h \
  /opt/devkitpro/libctru/include/3ds/gdbhio_dev.h \
  /opt/devkitpro/libctru/include/3ds/3dslink.h \
- /home/manu/3ds-dev/meme/source/../build/meme_raw_bin.h \
+ /home/manu/3ds-dev/meme/source/../build/meme1_raw_bin.h \
  /home/manu/3ds-dev/meme/source/../build/meme2_raw_bin.h \
  /home/manu/3ds-dev/meme/source/../build/meme3_raw_bin.h \
  /home/manu/3ds-dev/meme/source/../build/meme4_raw_bin.h
@@ -177,7 +177,7 @@ main.o: /home/manu/3ds-dev/meme/source/main.c \
 /opt/devkitpro/libctru/include/3ds/font.h:
 /opt/devkitpro/libctru/include/3ds/gdbhio_dev.h:
 /opt/devkitpro/libctru/include/3ds/3dslink.h:
-/home/manu/3ds-dev/meme/source/../build/meme_raw_bin.h:
+/home/manu/3ds-dev/meme/source/../build/meme1_raw_bin.h:
 /home/manu/3ds-dev/meme/source/../build/meme2_raw_bin.h:
 /home/manu/3ds-dev/meme/source/../build/meme3_raw_bin.h:
 /home/manu/3ds-dev/meme/source/../build/meme4_raw_bin.h:
