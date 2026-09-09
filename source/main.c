@@ -11,8 +11,7 @@
 u8 *audios[5];
 long audioSizes[5];
 
-/*todo: hacer que los memes se muestren desplazándote con las direcciones
- * izquierda y derecha de la cruzeta en vez de que cada meme tenga su direccion de cruzeta*/
+
 
 inline void clearScreen(){
 
@@ -21,9 +20,16 @@ inline void clearScreen(){
 
 }
 
+void printCenteredText(const char* text, int row) {
+    int len = strlen(text);
+    int col = (50 - len) / 2;
+    if (col < 0) col = 0;
+    printf("\x1b[%d;%dH%s", row, col, text);
+}
+
 const void *memes[]  = {meme1_raw_bin, meme2_raw_bin, meme3_raw_bin, meme4_raw_bin};
 size_t meme_sizes[] = {meme1_raw_bin_size, meme2_raw_bin_size, meme3_raw_bin_size, meme4_raw_bin_size};
-char *meme_messages[] = {"\x1b[16;14HTIENES 14?? ACTIVA CAM!!", "\x1b[16;17HSALE BALATRITO??", "\x1b[16;14HHAPPY BIRTHDAY DANIEL!!", "\x1b[16;11HWHAT IS THIS DIDDYBLUD DOING??"};
+char meme_messages[4][128] = {"\x1b[16;14HTIENES 14?? ACTIVA CAM!!", "\x1b[16;17HSALE BALATRITO??", "\x1b[16;14HHAPPY BIRTHDAY DANIEL!!", "\x1b[16;11HWHAT IS THIS DIDDYBLUD DOING??"};
 
 /*void play_audio(int idx){
 
@@ -48,7 +54,6 @@ int main(void) {
     //Se inicializa los gráficos y el romfs
     gfxInitDefault();
     romfsInit();
-    
     gfxSetDoubleBuffering(GFX_BOTTOM, false);
        
     // Parte del mensaje
@@ -60,7 +65,7 @@ int main(void) {
     int new_idx = 4; 
     
    for (int i = 0; i < 5; i++) {
-        printf("\x1b[16;14HLoading assets, please wait...");
+        printCenteredText("Loading assets, please wait...", 16);
         char path[64];
         snprintf(path, sizeof(path), "romfs:/audio%d.bin", i);
         FILE *f = fopen(path, "rb");
@@ -77,12 +82,14 @@ int main(void) {
     
     consoleClear();
 
-	puts("\x1B[1;33mWelcome to Meme Scroller v1.0.0 by HFMaker!\x1b[0m");
+	puts("\x1B[1;33mWelcome to Meme Scroller v1.1.2 by HFMaker!\x1b[0m");
     puts("");
     puts("");
     puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll\nthrough memes");
     puts("");
-    puts("-Press \x1B[1;32mB\x1B[0m while you're on a meme to\nreturn to this menu");
+    puts("-Press \x1B[1;32mB\x1B[0m on a meme to return to this menu");
+    puts("");
+    puts("-Press \x1B[1;35mX\x1B[0m on a meme to use the keyboard");
     puts("");
     puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
 
@@ -115,20 +122,23 @@ int main(void) {
 
         if (hidKeysDown() & KEY_START) break;
 
-        if (hidKeysDown() & KEY_B){
+        if (hidKeysDown() & KEY_B && idx != 4){
 
             consoleClear();
             clearScreen();
             idx = 4;
     
-            puts("\x1B[1;33mWelcome to Meme Scroller v1.0.0 by HFMaker!\x1b[0m");
+            puts("\x1B[1;33mWelcome to Meme Scroller v1.1.2 by HFMaker!\x1b[0m");
             puts("");
             puts("");
             puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll\nthrough memes");
             puts("");
-            puts("-Press \x1B[1;32mB\x1B[0m while you're on a meme to\nreturn to this menu");
+            puts("-Press \x1B[1;32mB\x1B[0m on a meme to return to this menu");
+            puts("");
+            puts("-Press \x1B[1;35mX\x1B[0m on a meme to use the keyboard");
             puts("");
             puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
+ 
     
             ndspChnReset(0);
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
@@ -144,6 +154,32 @@ int main(void) {
 
         }
     
+        static SwkbdState swkbd;
+        static char text[128];
+
+
+            
+        if (hidKeysDown() & KEY_X && idx != 4){
+
+            text[0] = '\0';
+            swkbdInit(&swkbd, SWKBD_TYPE_WESTERN, 2, sizeof(text));
+            swkbdSetFeatures(&swkbd, SWKBD_PREDICTIVE_INPUT | SWKBD_DARKEN_TOP_SCREEN);
+            swkbdSetHintText(&swkbd, "Enter a custom meme message...");
+            swkbdSetButton(&swkbd, SWKBD_BUTTON_LEFT, "No, thanks", false);
+            swkbdSetButton(&swkbd, SWKBD_BUTTON_RIGHT, "I'm done", true);
+
+            if (swkbdInputText(&swkbd, text, sizeof(text)) == SWKBD_BUTTON_RIGHT){
+
+                        snprintf(meme_messages[idx], sizeof(meme_messages[idx]), "%s", text);
+
+                        consoleClear();
+                        printCenteredText(meme_messages[idx], 16);
+                        printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
+
+                    }
+
+        }
+    
         if (hidKeysDown() & KEY_DRIGHT){
     
             idx = (idx == 4) ? 0 : (idx + 1) % 4;            
@@ -152,7 +188,7 @@ int main(void) {
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
             memcpy(fb, memes[idx], meme_sizes[idx]);
 
-            printf("%s", meme_messages[idx]);
+            printCenteredText(meme_messages[idx], 16);
             printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
 
             ndspChnReset(0);
@@ -169,14 +205,13 @@ int main(void) {
 
         }
 
-       if (hidKeysDown() & KEY_DLEFT){//Diddyblud
-            
+       if (hidKeysDown() & KEY_DLEFT){
             
             idx = (idx == 4) ? 3 : (idx + 3) % 4;
 
             consoleClear();
-        
-            printf("%s", meme_messages[idx]);
+            
+            printCenteredText(meme_messages[idx], 16);
 	        printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
 
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
