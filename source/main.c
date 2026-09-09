@@ -21,11 +21,9 @@ inline void clearScreen(){
 
 }
 
-
 const void *memes[]  = {meme1_raw_bin, meme2_raw_bin, meme3_raw_bin, meme4_raw_bin};
 size_t meme_sizes[] = {meme1_raw_bin_size, meme2_raw_bin_size, meme3_raw_bin_size, meme4_raw_bin_size};
 char *meme_messages[] = {"\x1b[16;14HTIENES 14?? ACTIVA CAM!!", "\x1b[16;17HSALE BALATRITO??", "\x1b[16;14HHAPPY BIRTHDAY DANIEL!!", "\x1b[16;11HWHAT IS THIS DIDDYBLUD DOING??"};
-
 
 /*void play_audio(int idx){
 
@@ -44,13 +42,6 @@ char *meme_messages[] = {"\x1b[16;14HTIENES 14?? ACTIVA CAM!!", "\x1b[16;17HSALE
 
         }*/
 
-
-/*printf("\x1b[16;14HTIENES 14?? ACTIVA CAM!!");
-printf("\x1b[16;14HHAPPY BIRTHDAY DANIEL!!");
-printf("\x1b[16;17HSALE BALATRITO??");
-printf("\x1b[16;11HWHAT IS THIS DIDDYBLUD DOING??");*/
-
-
 int idx = 4;
 
 int main(void) {
@@ -62,16 +53,6 @@ int main(void) {
        
     // Parte del mensaje
     consoleInit(GFX_TOP, NULL);
-	puts("\x1B[1;33mWelcome to Meme Scroller v1.0.0 by HFMaker!\x1b[0m");
-    puts("");
-    puts("");
-    puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll\nthrough memes");
-    puts("");
-    puts("-Press \x1B[1;32mB\x1B[0m while you're on a meme to\nreturn to this menu");
-    puts("");
-    puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
-
-
     
     //Se abre el binario del audio y se hacen los ajustes necesarios para que
     //este se escuche bien
@@ -79,6 +60,7 @@ int main(void) {
     int new_idx = 4; 
     
    for (int i = 0; i < 5; i++) {
+        printf("\x1b[16;14HLoading assets, please wait...");
         char path[64];
         snprintf(path, sizeof(path), "romfs:/audio%d.bin", i);
         FILE *f = fopen(path, "rb");
@@ -90,8 +72,19 @@ int main(void) {
         fread(audios[i], 1, audioSizes[i], f);
         fclose(f);
         DSP_FlushDataCache(audios[i], audioSizes[i]);
-    } 
+    }
+
     
+    consoleClear();
+
+	puts("\x1B[1;33mWelcome to Meme Scroller v1.0.0 by HFMaker!\x1b[0m");
+    puts("");
+    puts("");
+    puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll\nthrough memes");
+    puts("");
+    puts("-Press \x1B[1;32mB\x1B[0m while you're on a meme to\nreturn to this menu");
+    puts("");
+    puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
 
 
     ndspInit();
@@ -115,8 +108,6 @@ int main(void) {
     ndspChnWaveBufAdd(0, &waveBuf);
     }
 
-    
-
     //Bucle principal del programa
 
     while (aptMainLoop()) {
@@ -138,7 +129,6 @@ int main(void) {
             puts("-Press \x1B[1;32mB\x1B[0m while you're on a meme to\nreturn to this menu");
             puts("");
             puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
-
     
             ndspChnReset(0);
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
@@ -153,30 +143,22 @@ int main(void) {
             ndspChnWaveBufAdd(0, &waveBuf);
 
         }
-
     
         if (hidKeysDown() & KEY_DRIGHT){
-
-            
     
-            if (idx < 3 && idx != 4) ++idx;
-            else if (idx > 0 || idx == 4 ) idx = 0;
+            idx = (idx == 4) ? 0 : (idx + 1) % 4;            
 
-
-        
-            
             consoleClear();
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
             memcpy(fb, memes[idx], meme_sizes[idx]);
 
-            printf(meme_messages[idx]);
+            printf("%s", meme_messages[idx]);
             printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
 
             ndspChnReset(0);
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
             ndspChnSetRate(0, 44100.0f);
             ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
-
         
             ndspWaveBuf waveBuf;
             memset(&waveBuf, 0, sizeof(waveBuf));
@@ -187,17 +169,14 @@ int main(void) {
 
         }
 
-        
-
        if (hidKeysDown() & KEY_DLEFT){//Diddyblud
             
-        
-            if (idx > 0 && idx != 4) --idx;
-            else if (idx == 0 || idx == 4) idx = 3;
+            
+            idx = (idx == 4) ? 3 : (idx + 3) % 4;
 
             consoleClear();
         
-            printf(meme_messages[idx]);
+            printf("%s", meme_messages[idx]);
 	        printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
 
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
@@ -207,7 +186,6 @@ int main(void) {
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
             ndspChnSetRate(0, 44100.0f);
             ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
-
         
             ndspWaveBuf waveBuf;
             memset(&waveBuf, 0, sizeof(waveBuf));
@@ -219,13 +197,9 @@ int main(void) {
            
         }
 
-
-
         gfxFlushBuffers();
         gfxSwapBuffers();
         gspWaitForVBlank();
-       
-
       
     }
 

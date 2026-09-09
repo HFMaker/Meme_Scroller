@@ -23,7 +23,7 @@ include $(DEVKITARM)/3ds_rules
 # NO_SMDH: if set to anything, no SMDH file is generated.
 # ROMFS is the directory which contains the RomFS, relative to the Makefile (Optional)
 APP_TITLE	:= Meme Scroller
-APP_DESCRIPTION 	:= Watch some funny memes! :3
+APP_DESCRIPTION 	:= Meme Scroller by HFMaker
 APP_AUTHOR := HFMaker
 ICON 	   := icon.png 
 #   If not set, it attempts to use one of the following (in this order):
