@@ -468,40 +468,40 @@
 00120f74 00000094 T _write_r
 00121008 00000048 T strrchr
 00121050 T _fini
-001223f0 r .LC2
-00122774 00000080 r dotab_stdout
-001227f4 00000018 r grayScale
-0012280c 00000006 r colorCube
-00122814 00000030 r colorTable
-00122844 00000080 r romFS_devoptab
-001228c4 00000011 r dsp_filename.0
-001228f4 00000008 r morton_y.2
-001228fc 00000008 r morton_x.3
-00122904 00000008 r s_sleepWakeEvents.4
-0012290c 0000000c r serviceNameTable.5
-00122918 00000014 r swkbdFeatures
-0012292c R default_font_bin
-0012312c R default_font_bin_end
-0012312c 00000030 r error_table
-0012315c 00000080 r archive_devoptab
-00123304 00000010 r zeroes.0
-00123314 00000010 r blanks.1
-00123324 00000101 R _ctype_
-00123510 00000010 r zeroes.0
-00123520 00000010 r blanks.1
-00123530 0000006c R __action_table
-0012359c 0000006c R __state_table
-00123608 00000100 R __chclass
-00123710 0000000c r p05.0
-00123720 00000028 R __mprec_bigtens
-00123748 000000c8 R __mprec_tens
-001238fc 00000010 r zeroes.0
-0012390c 00000010 r blanks.1
-0012391c 00000080 R dotab_stdnull
-0012399c R __tdata_align
-001239a0 r __EH_FRAME_BEGIN__
-001239a0 R __exidx_end
-001239a0 R __exidx_start
+001223f8 r .LC2
+0012277c 00000080 r dotab_stdout
+001227fc 00000018 r grayScale
+00122814 00000006 r colorCube
+0012281c 00000030 r colorTable
+0012284c 00000080 r romFS_devoptab
+001228cc 00000011 r dsp_filename.0
+001228fc 00000008 r morton_y.2
+00122904 00000008 r morton_x.3
+0012290c 00000008 r s_sleepWakeEvents.4
+00122914 0000000c r serviceNameTable.5
+00122920 00000014 r swkbdFeatures
+00122934 R default_font_bin
+00123134 R default_font_bin_end
+00123134 00000030 r error_table
+00123164 00000080 r archive_devoptab
+0012330c 00000010 r zeroes.0
+0012331c 00000010 r blanks.1
+0012332c 00000101 R _ctype_
+00123518 00000010 r zeroes.0
+00123528 00000010 r blanks.1
+00123538 0000006c R __action_table
+001235a4 0000006c R __state_table
+00123610 00000100 R __chclass
+00123718 0000000c r p05.0
+00123728 00000028 R __mprec_bigtens
+00123750 000000c8 R __mprec_tens
+00123904 00000010 r zeroes.0
+00123914 00000010 r blanks.1
+00123924 00000080 R dotab_stdnull
+001239a4 R __tdata_align
+001239a8 r __EH_FRAME_BEGIN__
+001239a8 R __exidx_end
+001239a8 R __exidx_start
 00124000 00000004 D idx
 00124004 00000200 D meme_messages
 00124204 00000001 d firstConsoleInit.0
