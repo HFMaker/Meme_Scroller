@@ -59,12 +59,10 @@ int main(void) {
     // Parte del mensaje
     consoleInit(GFX_TOP, NULL);
     
-    //Se abre el binario del audio y se hacen los ajustes necesarios para que
-    //este se escuche bien
-    
+   
     int new_idx = 4; 
     
-   for (int i = 0; i < 5; i++) {
+   for (int i = 0; i < 5; i++) { //Se cargan los binarios de los audios y mientras se pone un mensaje de espera
         printCenteredText("Loading assets, please wait...", 16);
         char path[64];
         snprintf(path, sizeof(path), "romfs:/audio%d.bin", i);
@@ -80,18 +78,18 @@ int main(void) {
     }
 
     
-    consoleClear();
+    consoleClear();//Limpiamos la consola y escribimos el mensaje de bienvenida junto con los controles
 
 	puts("\x1B[1;33mWelcome to Meme Scroller v1.1.2 by HFMaker!\x1b[0m");
     puts("");
     puts("");
-    puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll\nthrough memes");
+    puts("\x1B[1;37m-Press\x1B[0m \x1B[1;36mright or left D-Pad\x1B[0m \x1B[1;37mto scroll\nthrough memes\x1B[0m");
     puts("");
-    puts("-Press \x1B[1;32mB\x1B[0m on a meme to return to this menu");
+    puts("\x1B[1;37m-Press\x1B[0m \x1B[1;32mB\x1B[0m \x1B[1;37mon a meme to return to this menu\x1B[0m");
     puts("");
-    puts("-Press \x1B[1;35mX\x1B[0m on a meme to use the keyboard");
+    puts("\x1B[1;37m-Press\x1B[0m \x1B[1;35mX\x1B[0m \x1B[1;37mon a meme to use the keyboard\x1B[0m");
     puts("");
-    puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
+    puts("\x1B[1;37m-Press\x1B[0m \x1B[1;31mSTART\x1B[0m \x1B[1;37mto exit\x1B[0m");
 
 
     ndspInit();
@@ -122,7 +120,7 @@ int main(void) {
 
         if (hidKeysDown() & KEY_START) break;
 
-        if (hidKeysDown() & KEY_B && idx != 4){
+        if (hidKeysDown() & KEY_B && idx != 4){//Al darle a la B para ir "volver al menú", tenemos que redibujar todo el menú de nuevo
 
             consoleClear();
             clearScreen();
@@ -131,14 +129,13 @@ int main(void) {
             puts("\x1B[1;33mWelcome to Meme Scroller v1.1.2 by HFMaker!\x1b[0m");
             puts("");
             puts("");
-            puts("-Press \x1B[1;36mright or left D-Pad\x1B[0m to scroll\nthrough memes");
+            puts("\x1B[1;37m-Press\x1B[0m \x1B[1;36mright or left D-Pad\x1B[0m \x1B[1;37mto scroll\nthrough memes\x1B[0m");
             puts("");
-            puts("-Press \x1B[1;32mB\x1B[0m on a meme to return to this menu");
+            puts("\x1B[1;37m-Press\x1B[0m \x1B[1;32mB\x1B[0m \x1B[1;37mon a meme to return to this menu\x1B[0m");
             puts("");
-            puts("-Press \x1B[1;35mX\x1B[0m on a meme to use the keyboard");
+            puts("\x1B[1;37m-Press\x1B[0m \x1B[1;35mX\x1B[0m \x1B[1;37mon a meme to use the keyboard\x1B[0m");
             puts("");
-            puts("-Press \x1B[1;31mSTART\x1B[0m to exit");
- 
+            puts("\x1B[1;37m-Press\x1B[0m \x1B[1;31mSTART\x1B[0m \x1B[1;37mto exit\x1B[0m");
     
             ndspChnReset(0);
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
@@ -174,7 +171,7 @@ int main(void) {
 
                         consoleClear();
                         printCenteredText(meme_messages[idx], 16);
-                        printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
+                        printf("\x1b[30;16H\x1B[1;37mPress\x1B[0m \x1B[1;31mStart\x1B[0m \x1B[1;37mto exit.\x1B[0m");
 
                     }
 
@@ -189,7 +186,7 @@ int main(void) {
             memcpy(fb, memes[idx], meme_sizes[idx]);
 
             printCenteredText(meme_messages[idx], 16);
-            printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
+            printf("\x1b[30;16H\x1B[1;37mPress\x1B[0m \x1B[1;31mStart\x1B[0m \x1B[1;37mto exit.\x1B[0m");
 
             ndspChnReset(0);
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
@@ -212,7 +209,7 @@ int main(void) {
             consoleClear();
             
             printCenteredText(meme_messages[idx], 16);
-	        printf("\x1b[30;16HPress \x1B[1;31mStart\x1B[0m to exit.");
+	        printf("\x1b[30;16H\x1B[1;37mPress\x1B[0m \x1B[1;31mStart\x1B[0m \x1B[1;37mto exit.\x1B[0m");
 
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
             memcpy(fb, memes[idx], meme_sizes[idx]);

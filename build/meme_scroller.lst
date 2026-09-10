@@ -476,40 +476,40 @@
 001c9c30 R meme3_raw_bin_end
 001c9c30 R meme4_raw_bin
 00202030 R meme4_raw_bin_end
-0020231c r .LC2
-002026a0 00000080 r dotab_stdout
-00202720 00000018 r grayScale
-00202738 00000006 r colorCube
-00202740 00000030 r colorTable
-00202770 00000080 r romFS_devoptab
-002027f0 00000011 r dsp_filename.0
-00202820 00000008 r morton_y.2
-00202828 00000008 r morton_x.3
-00202830 00000008 r s_sleepWakeEvents.4
-00202838 0000000c r serviceNameTable.5
-00202848 00000014 r swkbdFeatures
-0020285c R default_font_bin
-0020305c R default_font_bin_end
-0020305c 00000030 r error_table
-0020308c 00000080 r archive_devoptab
-00203234 00000010 r zeroes.0
-00203244 00000010 r blanks.1
-00203254 00000101 R _ctype_
-00203440 00000010 r zeroes.0
-00203450 00000010 r blanks.1
-00203460 0000006c R __action_table
-002034cc 0000006c R __state_table
-00203538 00000100 R __chclass
-00203640 0000000c r p05.0
-00203650 00000028 R __mprec_bigtens
-00203678 000000c8 R __mprec_tens
-0020382c 00000010 r zeroes.0
-0020383c 00000010 r blanks.1
-0020384c 00000080 R dotab_stdnull
-002038cc R __tdata_align
-002038d0 r __EH_FRAME_BEGIN__
-002038d0 R __exidx_end
-002038d0 R __exidx_start
+00202388 r .LC2
+0020270c 00000080 r dotab_stdout
+0020278c 00000018 r grayScale
+002027a4 00000006 r colorCube
+002027ac 00000030 r colorTable
+002027dc 00000080 r romFS_devoptab
+0020285c 00000011 r dsp_filename.0
+0020288c 00000008 r morton_y.2
+00202894 00000008 r morton_x.3
+0020289c 00000008 r s_sleepWakeEvents.4
+002028a4 0000000c r serviceNameTable.5
+002028b0 00000014 r swkbdFeatures
+002028c4 R default_font_bin
+002030c4 R default_font_bin_end
+002030c4 00000030 r error_table
+002030f4 00000080 r archive_devoptab
+0020329c 00000010 r zeroes.0
+002032ac 00000010 r blanks.1
+002032bc 00000101 R _ctype_
+002034a8 00000010 r zeroes.0
+002034b8 00000010 r blanks.1
+002034c8 0000006c R __action_table
+00203534 0000006c R __state_table
+002035a0 00000100 R __chclass
+002036a8 0000000c r p05.0
+002036b8 00000028 R __mprec_bigtens
+002036e0 000000c8 R __mprec_tens
+00203894 00000010 r zeroes.0
+002038a4 00000010 r blanks.1
+002038b4 00000080 R dotab_stdnull
+00203934 R __tdata_align
+00203938 r __EH_FRAME_BEGIN__
+00203938 R __exidx_end
+00203938 R __exidx_start
 00204000 00000004 D idx
 00204004 00000200 D meme_messages
 00204204 00000010 D meme_sizes
