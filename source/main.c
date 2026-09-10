@@ -76,10 +76,10 @@ int main(void) {
     
     consoleClear();//Limpiamos la consola y escribimos el mensaje de bienvenida junto con los controles
 
-	puts("\x1B[1;33mWelcome to Meme Scroller v1.1.2 by HFMaker!\x1b[0m");
+	puts("\x1B[1;33mWelcome to Meme Scroller v1.1.3 by HFMaker!\x1b[0m");
     puts("");
     puts("");
-    puts("\x1B[1;37m-Press\x1B[0m \x1B[1;36mright or left D-Pad\x1B[0m \x1B[1;37mto scroll\nthrough memes\x1B[0m");
+    puts("\x1B[1;37m-Press\x1B[0m \x1B[1;36mright or left D-Pad/C-Pad\x1B[0m \x1B[1;37mto scroll\nthrough memes\x1B[0m");
     puts("");
     puts("\x1B[1;37m-Press\x1B[0m \x1B[1;32mB\x1B[0m \x1B[1;37mon a meme to return to this menu\x1B[0m");
     puts("");
@@ -123,10 +123,10 @@ int main(void) {
             clearScreen();
             idx = 4;
     
-            puts("\x1B[1;33mWelcome to Meme Scroller v1.1.2 by HFMaker!\x1b[0m");
+            puts("\x1B[1;33mWelcome to Meme Scroller v1.1.3 by HFMaker!\x1b[0m");
             puts("");
             puts("");
-            puts("\x1B[1;37m-Press\x1B[0m \x1B[1;36mright or left D-Pad\x1B[0m \x1B[1;37mto scroll\nthrough memes\x1B[0m");
+            puts("\x1B[1;37m-Press\x1B[0m \x1B[1;36mright or left D-Pad/C-Pad\x1B[0m \x1B[1;37mto scroll\nthrough memes\x1B[0m");
             puts("");
             puts("\x1B[1;37m-Press\x1B[0m \x1B[1;32mB\x1B[0m \x1B[1;37mon a meme to return to this menu\x1B[0m");
             puts("");
@@ -174,7 +174,7 @@ int main(void) {
 
         }
     
-        if (hidKeysDown() & KEY_DRIGHT){
+        if (hidKeysDown() & KEY_DRIGHT || hidKeysDown() & KEY_CPAD_RIGHT){
     
             idx = (idx == 4) ? 0 : (idx + 1) % 4;            
 
@@ -213,7 +213,7 @@ int main(void) {
 
         }
 
-       if (hidKeysDown() & KEY_DLEFT){
+       if (hidKeysDown() & KEY_DLEFT || hidKeysDown() & KEY_CPAD_LEFT){
             
             idx = (idx == 4) ? 3 : (idx + 3) % 4;
 
