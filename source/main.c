@@ -3,10 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "../build/meme1_raw_bin.h"
-#include "../build/meme2_raw_bin.h"
-#include "../build/meme3_raw_bin.h"
-#include "../build/meme4_raw_bin.h"
+
 
 u8 *audios[5];
 long audioSizes[5];
@@ -27,8 +24,7 @@ void printCenteredText(const char* text, int row) {
     printf("\x1b[%d;%dH%s", row, col, text);
 }
 
-const void *memes[]  = {meme1_raw_bin, meme2_raw_bin, meme3_raw_bin, meme4_raw_bin};
-size_t meme_sizes[] = {meme1_raw_bin_size, meme2_raw_bin_size, meme3_raw_bin_size, meme4_raw_bin_size};
+
 char meme_messages[4][128] = {"\x1b[16;14HTIENES 14?? ACTIVA CAM!!", "\x1b[16;17HSALE BALATRITO??", "\x1b[16;14HHAPPY BIRTHDAY DANIEL!!", "\x1b[16;11HWHAT IS THIS DIDDYBLUD DOING??"};
 
 /*void play_audio(int idx){
@@ -65,7 +61,7 @@ int main(void) {
    for (int i = 0; i < 5; i++) { //Se cargan los binarios de los audios y mientras se pone un mensaje de espera
         printCenteredText("Loading assets, please wait...", 16);
         char path[64];
-        snprintf(path, sizeof(path), "romfs:/audio%d.bin", i);
+        snprintf(path, sizeof(path), "romfs:/sfx/audio%d.bin", i);
         FILE *f = fopen(path, "rb");
         if (!f) { audioSizes[i] = 0; continue; }
         fseek(f, 0, SEEK_END);
@@ -118,6 +114,7 @@ int main(void) {
     while (aptMainLoop()) {
         hidScanInput();
 
+        
         if (hidKeysDown() & KEY_START) break;
 
         if (hidKeysDown() & KEY_B && idx != 4){//Al darle a la B para ir "volver al menú", tenemos que redibujar todo el menú de nuevo
@@ -182,9 +179,23 @@ int main(void) {
             idx = (idx == 4) ? 0 : (idx + 1) % 4;            
 
             consoleClear();
-            u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-            memcpy(fb, memes[idx], meme_sizes[idx]);
 
+
+            u8 *img = malloc(320 * 240 * 3);
+            if (!img){printf("Error while trying to load the image"); free(img);} 
+            char path[64];
+            snprintf(path, sizeof(path), "romfs:/img/meme%d.bin", idx);
+            FILE *f = fopen(path, "rb");
+            if (!f){printf("Image not found or path is wrong");}
+            fread(img, 1, 320 * 240 * 3, f);
+            fclose(f);
+
+            u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+            memcpy(fb, img, 320 * 240 * 3);
+
+
+
+          
             printCenteredText(meme_messages[idx], 16);
             printf("\x1b[30;16H\x1B[1;37mPress\x1B[0m \x1B[1;31mStart\x1B[0m \x1B[1;37mto exit.\x1B[0m");
 
@@ -211,8 +222,18 @@ int main(void) {
             printCenteredText(meme_messages[idx], 16);
 	        printf("\x1b[30;16H\x1B[1;37mPress\x1B[0m \x1B[1;31mStart\x1B[0m \x1B[1;37mto exit.\x1B[0m");
 
+            u8 *img = malloc(320 * 240 * 3);
+            if (!img){printf("Error while trying to load the image"); free(img);} 
+            char path[64];
+            snprintf(path, sizeof(path), "romfs:/img/meme%d.bin", idx);
+            FILE *f = fopen(path, "rb");
+            if (!f){printf("Image not found or path is wrong");}
+            fread(img, 1, 320 * 240 * 3, f);
+            fclose(f);
+
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-            memcpy(fb, memes[idx], meme_sizes[idx]);
+            memcpy(fb, img, 320 * 240 * 3);
+
 
             ndspChnReset(0);
             ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
