@@ -4,11 +4,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+//Variables globales
 
 u8 *audios[5];
 long audioSizes[5];
-
-
+int idx = 4;
 
 inline void clearScreen(){
 
@@ -27,7 +27,11 @@ void printCenteredText(const char* text, int row) {
 
 char meme_messages[4][128] = {"\x1b[16;14HTIENES 14?? ACTIVA CAM!!", "\x1b[16;17HSALE BALATRITO??", "\x1b[16;14HHAPPY BIRTHDAY DANIEL!!", "\x1b[16;11HWHAT IS THIS DIDDYBLUD DOING??"};
 
-/*void play_audio(int idx){
+
+static ndspWaveBuf waveBuf;
+
+
+void playAudio(int idx){
 
 
         ndspChnReset(0);
@@ -35,16 +39,16 @@ char meme_messages[4][128] = {"\x1b[16;14HTIENES 14?? ACTIVA CAM!!", "\x1b[16;17
         ndspChnSetRate(0, 44100.0f);
         ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
 
-        ndspWaveBuf waveBuf;
         memset(&waveBuf, 0, sizeof(waveBuf));
         waveBuf.data_vaddr = (const void *)audios[idx];
         waveBuf.nsamples = audioSizes[idx] / 2;
         waveBuf.looping = true;
         ndspChnWaveBufAdd(0, &waveBuf);
+        DSP_FlushDataCache((u32*)audios[idx], audioSizes[idx]);
 
-        }*/
+        }
 
-int idx = 4;
+
 
 int main(void) {
     //Se inicializa los gráficos y el romfs
@@ -134,18 +138,7 @@ int main(void) {
             puts("");
             puts("\x1B[1;37m-Press\x1B[0m \x1B[1;31mSTART\x1B[0m \x1B[1;37mto exit\x1B[0m");
     
-            ndspChnReset(0);
-            ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
-            ndspChnSetRate(0, 44100.0f);
-            ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
-            
-            ndspWaveBuf waveBuf;
-            memset(&waveBuf, 0, sizeof(waveBuf));
-            waveBuf.data_vaddr = (const void *)audios[idx];
-            waveBuf.nsamples = audioSizes[idx] / 2;
-            waveBuf.looping = true;
-            ndspChnWaveBufAdd(0, &waveBuf);
-
+            playAudio(idx); 
         }
     
         static SwkbdState swkbd;
@@ -199,18 +192,8 @@ int main(void) {
             printCenteredText(meme_messages[idx], 16);
             printf("\x1b[30;16H\x1B[1;37mPress\x1B[0m \x1B[1;31mStart\x1B[0m \x1B[1;37mto exit.\x1B[0m");
 
-            ndspChnReset(0);
-            ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
-            ndspChnSetRate(0, 44100.0f);
-            ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
-        
-            ndspWaveBuf waveBuf;
-            memset(&waveBuf, 0, sizeof(waveBuf));
-            waveBuf.data_vaddr = (const void *)audios[idx];
-            waveBuf.nsamples = audioSizes[idx] / 2;
-            waveBuf.looping = true;
-            ndspChnWaveBufAdd(0, &waveBuf);
-
+            playAudio(idx);
+ 
         }
 
        if (hidKeysDown() & KEY_DLEFT || hidKeysDown() & KEY_CPAD_LEFT){
@@ -234,20 +217,8 @@ int main(void) {
             u8 *fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
             memcpy(fb, img, 320 * 240 * 3);
 
+            playAudio(idx);
 
-            ndspChnReset(0);
-            ndspChnSetInterp(0, NDSP_INTERP_LINEAR);
-            ndspChnSetRate(0, 44100.0f);
-            ndspChnSetFormat(0, NDSP_FORMAT_MONO_PCM16);
-        
-            ndspWaveBuf waveBuf;
-            memset(&waveBuf, 0, sizeof(waveBuf));
-            waveBuf.data_vaddr = (const void *)audios[idx];
-            waveBuf.nsamples = audioSizes[idx] / 2;
-            waveBuf.looping = true;
-            ndspChnWaveBufAdd(0, &waveBuf);
-
-           
         }
 
         gfxFlushBuffers();
